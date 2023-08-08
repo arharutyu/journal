@@ -17,10 +17,13 @@ const App = () => {
   const nav = useNavigate()
   const [entries, setEntries] = useState([])
 
-  useEffect(async () => {
-    const res = await fetch('http://localhost:4001/entries')
-    const data = await res.json()
-    setEntries(data)
+  useEffect(() => {
+    // closure/ IIFE - declare anon fx, immediately call
+      (async () => {
+      const res = await fetch('http://localhost:4001/entries')
+      const data = await res.json()
+      setEntries(data)
+      })()
   }, [])
 
   // HOC (higher-order component)
