@@ -6,7 +6,7 @@ const CategorySelection = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('http://localhost:4001/categories')
+      const res = await fetch(`${import.meta.env.VITE_API_HOST}/categories`)
       const data = await res.json()
       setCategories(data)
       })()
