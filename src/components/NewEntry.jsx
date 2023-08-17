@@ -1,9 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
+import JournalContext from '../context'
 
-const NewEntry = ({ addEntry }) => {
+const NewEntry = () => {
   const { category } = useParams()
   const [content, setContent] = useState('')
+  const { addEntry } = useContext(JournalContext)
 
   function submit(event) {
     event.preventDefault()

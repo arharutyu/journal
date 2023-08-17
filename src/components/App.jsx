@@ -1,40 +1,12 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect, useReducer, createContext } from 'react'
 import Home from './Home'
 import CategorySelection from './CategorySelection'
 import NewEntry from './NewEntry'
 import { BrowserRouter, Routes, Route, useNavigate, useParams } from 'react-router-dom'
 import NavBar from './NavBar'
 import ShowEntry from './ShowEntry'
-
-// const seedEntries = [
-//   {category: 'Food', content: 'Is energy'},
-//   {category: 'Coding', content: 'Coding is fun'},
-//   {category: 'Gaming', content: 'Animal Crossing is a game.'}
-// ]
-
-function reducer(currentState, action) {
-  switch(action.type) {
-    case 'setEntries':
-      return {
-      // deconstruct into key value pairs (entries & categories keys)
-      ...currentState,
-      // update entries value with entries from action
-      entries: action.entries
-    }
-    case 'addEntry':
-      return {
-        ...currentState,
-        entries: [...currentState.entries, action.entry]
-      }
-    default:
-      return currentState
-  }
-}
-
-const initialState = {
-  entries: [],
-  categories: []
-}
+import { reducer, initialState } from '../reducer.js'
+import JournalContext from '../context'
 
 const App = () => {
   const nav = useNavigate()
@@ -80,18 +52,20 @@ const App = () => {
     nav(`/entry/${id}`)
   }
 
-  return <>
-    <NavBar />
-    <Routes>
-      <Route path='/' element={<Home entries={entries}/>} />
-      <Route path='/category' element={<CategorySelection />} />
-      <Route path='/entry' >
-        <Route path=':id' element={<ShowEntryWrapper />}></Route>
-        <Route path='new/:category' element={<NewEntry addEntry={addEntry} />} /> 
-      </Route>
-      <Route path='*' element={<h3>Page not found</h3>}></Route>
-    </Routes>
-  </>
+  return (
+    <JournalContext.Provider value={{ entries, addEntry }}>
+      <NavBar />
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/category' element={<CategorySelection />} />
+        <Route path='/entry' >
+          <Route path=':id' element={<ShowEntryWrapper />}></Route>
+          <Route path='new/:category' element={<NewEntry addEntry={addEntry} />} /> 
+        </Route>
+        <Route path='*' element={<h3>Page not found</h3>}></Route>
+      </Routes>
+    </JournalContext.Provider>
+  )
 }
 
 export default App
