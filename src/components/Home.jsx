@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import JournalContext from '../context'
 
-const Home = ({ entries }) => {
+const Home = () => {
+  const { entries } = useContext(JournalContext)
+
   return (
     <>
       <h2>Journal Entries</h2>
